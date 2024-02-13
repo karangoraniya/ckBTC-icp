@@ -1,0 +1,25 @@
+{
+  "canisters": {
+    "fortune_cookie_backend": {
+      "main": "src/fortune_cookie_backend/main.mo",
+      "type": "motoko"
+    },
+    "fortune_cookie_frontend": {
+      "dependencies": [
+        "fortune_cookie_backend"
+      ],
+      "source": [
+        "src/fortune_cookie_frontend/assets"
+      ],
+      "type": "assets"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
