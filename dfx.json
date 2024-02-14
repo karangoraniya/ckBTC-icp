@@ -2,16 +2,21 @@
   "canisters": {
     "fortune_cookie_backend": {
       "main": "src/fortune_cookie_backend/main.mo",
-      "type": "motoko"
-    },
-    "fortune_cookie_frontend": {
+      "type": "motoko",
       "dependencies": [
-        "fortune_cookie_backend"
-      ],
-      "source": [
-        "src/fortune_cookie_frontend/assets"
-      ],
-      "type": "assets"
+        "ckbtc_ledger"
+      ]
+    },
+    "ckbtc_ledger": {
+      "type": "custom",
+      "candid": "icrc1.public.did",
+      "wasm": "icrc1.wasm",
+      "remote": {
+        "candid": "icrc1.public.did",
+        "id": {
+          "ic": "mxzaz-hqaaa-aaaar-qaada-cai"
+        }
+      }
     }
   },
   "defaults": {
