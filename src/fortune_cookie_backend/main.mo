@@ -122,37 +122,43 @@ actor FortuneCookie {
     };
   };
 
-  // public shared ({ caller }) func transferCkBTC(to : Principal, amount : Nat) : async Result<Nat, Text> {
+  public shared ({ caller }) func transferCkBTC(to : Principal, amount : Nat, icrc1LedgerPrincipal:Text) : async Result.Result<Nat, Text> {
 
-  //   let balance = await CkBtcLedger.icrc1_balance_of(
-  //     toAccount({ caller; canister = Principal.fromActor(FortuneCookie) })
-  //   );
+    let Management = actor (icrc1LedgerPrincipal) : actor {
+      raw_rand : () -> async Blob;
+    };
 
-  //   try {
 
-  //     let transferResult = await CkBtcLedger.icrc1_transfer({
-  //       from_subaccount = ?toSubaccount(caller); // Assuming transfer from the main account of the caller
-  //       to = {
-  //         owner = to; // Destination principal
-  //         subaccount = null; // Assuming transfer to the main account of the recipient
-  //       };
-  //       amount = amount; // Amount to transfer
-  //       fee = ?10; // Assuming a fixed fee, adjust as necessary
-  //       memo = null; // Optional, provide if needed
-  //       created_at_time = null; // Optional, provide if needed
-  //     });
 
-  //     switch (transferResult) {
-  //       case (#ok(txId)) {
-  //         #ok(txId) // Return the transaction ID on success
-  //       };
-  //       case (#err(errMsg)) {
-  //         #err(errMsg) // Return the error message on failure
-  //       };
-  //     };
+    let balance = await CkBtcLedger.icrc1_balance_of(
+      toAccount({ caller; canister = Principal.fromActor(FortuneCookie) })
+    );
 
-  //   } catch (error : Error) {
-  //     return #err("Payment Failed:");
-  //   };
-  // };
+    try {
+
+      let transferResult = await CkBtcLedger.icrc1_transfer({
+        from_subaccount = ?toSubaccount(caller); // Assuming transfer from the main account of the caller
+        to = {
+          owner = to; // Destination principal
+          subaccount = null; // Assuming transfer to the main account of the recipient
+        };
+        amount = amount; // Amount to transfer
+        fee = ?10; // Assuming a fixed fee, adjust as necessary
+        memo = null; // Optional, provide if needed
+        created_at_time = null; // Optional, provide if needed
+      });
+
+      switch (transferResult) {
+        case (#ok(txId)) {
+          #ok(txId) // Return the transaction ID on success
+        };
+        case (#err(errMsg)) {
+          #err(errMsg) // Return the error message on failure
+        };
+      };
+
+    } catch (error : Error) {
+      return #err("Payment Failed:");
+    };
+  };
 };
