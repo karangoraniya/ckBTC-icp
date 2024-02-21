@@ -122,11 +122,11 @@ actor FortuneCookie {
     };
   };
 
-  public shared ({ caller }) func transferCkBTC(to : Principal, amount : Nat, icrc1LedgerPrincipal:Text) : async Result.Result<Nat, Text> {
+  public shared ({ caller }) func transferCkBTC(to : Principal, amount : Nat) : async Result.Result<Nat, Text> {
 
-    let Management = actor (icrc1LedgerPrincipal) : actor {
-      raw_rand : () -> async Blob;
-    };
+    // let Management = actor (icrc1LedgerPrincipal) : actor {
+    //   raw_rand : () -> async Blob;
+    // };
 
 
 
