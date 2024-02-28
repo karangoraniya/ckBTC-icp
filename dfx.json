@@ -3,16 +3,13 @@
     "fortune_cookie_backend": {
       "main": "src/fortune_cookie_backend/main.mo",
       "type": "motoko",
-      "dependencies": [
-        "ckbtc_ledger"
-      ]
+      "dependencies": ["ckbtc_ledger"]
     },
     "ckbtc_ledger": {
       "type": "custom",
-      "candid": "icrc1.public.did",
-      "wasm": "icrc1.wasm",
+      "candid": "https://raw.githubusercontent.com/dfinity/ic/3e25df8f16f794bc93caaefdce41467304d1b0c7/rs/rosetta-api/icrc1/ledger/ledger.did",
+      "wasm": "https://download.dfinity.systems/ic/3e25df8f16f794bc93caaefdce41467304d1b0c7/canisters/ic-icrc1-ledger.wasm.gz",
       "remote": {
-        "candid": "icrc1.public.did",
         "id": {
           "ic": "mxzaz-hqaaa-aaaar-qaada-cai"
         }
