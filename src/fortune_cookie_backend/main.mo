@@ -45,12 +45,12 @@ actor multiPay {
 
 
   // example of how to make inter canister calls to the ledger in motoko
-  // public shared ({ caller }) func send(to : Principal, amount : Nat, icrc1LedgerPrincipal : Text) : async Result.Result<Nat, Text> {
+  public shared ({ caller }) func send(to : Principal, amount : Nat, icrc1LedgerPrincipal : Text) : async Result.Result<Nat, Text> {
 
   // public shared ({ caller }) func transfer(args : TransferArgs) : async Result.Result<ckbtc_ledger.BlockIndex, Text> {
 
 
-  public shared ({ caller }) func send(amount : Nat, Name : Text) : async Result.Result<Nat, Text> { 
+  // public shared ({ caller }) func send(amount : Nat, Name : Text) : async Result.Result<Nat, Text> { 
     let balanceArg = {
       owner = caller;
       // owner = caller;
@@ -65,7 +65,8 @@ actor multiPay {
 
     let transferResult = await ckbtc_ledger.icrc1_transfer({
       to = { 
-        owner = Principal.fromActor(multiPay); 
+        owner = to; 
+        // owner = Principal.fromActor(multiPay); 
         subaccount = null; };
       // to = {
       //   owner = ;
@@ -103,7 +104,21 @@ actor multiPay {
 
   };
 
+
+let ledger_actor = actor("mxzaz-hqaaa-aaaar-qaada-cai") : actor {
+         icrc2_approve : shared (args : {
+             amount : Nat;
+             created_at_time : ?Int;
+             expected_allowance : ?Nat;
+             expires_at : ?Int;
+             fee: ?Nat;
+             from_subaccount : ?Blob;
+             memo: ?Blob;
+             spender : { owner : Principal; subaccount : ?Blob };
+         }) -> async Result.Result<Nat,Text>;
+     };
  
+//  icrc1_balance_of: (record {owner:principal; subaccount:opt vec nat8}) → (nat) query
 
 
   public shared ({ caller = owner }) func approve(amount : Nat) : async Result.Result<Nat,Text> {
@@ -117,7 +132,24 @@ actor multiPay {
              memo = null;
              spender = { owner; subaccount = null };
          };
-        let result_Trans =  await ckbtc_ledger.icrc2_approve(args);
+
+    //       let ledger_actor : actor {
+    //     icrc2_approve : shared (args : {
+    //         amount : Nat;
+    //         created_at_time : ?Int;
+    //         expected_allowance : ?Nat;
+    //         expires_at : ?Int;
+    //         fee : ?Nat;
+    //         from_subaccount : ?Blob;
+    //         memo : ?Blob;
+    //         spender : { owner : Principal; subaccount : ?Blob };
+    //     }) -> async Result.Result<Nat,Text>;
+    // } = actor "mxzaz-hqaaa-aaaar-qaada-cai"; 
+
+    let result_Trans = await ledger_actor.icrc2_approve(args);
+
+
+        // let result_Trans =  await ckbtc_ledger.icrc2_approve(args);
 
 
     switch (result_Trans) {
